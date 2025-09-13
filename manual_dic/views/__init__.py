@@ -1,0 +1,1 @@
+from .article_views import * #このファイルから全部インポートする
