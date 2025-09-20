@@ -2,12 +2,12 @@ from django.dispatch import receiver
 from django.db.models.signals import post_save
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
-from manual_dic.models import create_id
+from manual_dic.models import create_id #article_modelで定義済み/ModuleNotFoundError: No module named 'base'
  
  
 class UserManager(BaseUserManager):
  
-    def create_user(self, username, email, password=None):
+    def create_user(self, username, email, password=None): #一般ユーザー
         if not email:
             raise ValueError('Users must have an email address')
         user = self.model(
@@ -18,7 +18,7 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
  
-    def create_superuser(self, username, email, password=None):
+    def create_superuser(self, username, email, password=None): #管理人
         user = self.create_user(
             username,
             email,
@@ -29,10 +29,10 @@ class UserManager(BaseUserManager):
         return user
  
  
-class CustomUser(AbstractBaseUser):
+class User(AbstractBaseUser):
     id = models.CharField(default=create_id, primary_key=True, max_length=22)
     username = models.CharField(
-        max_length=50, unique=True, blank=True, default='匿名')
+        max_length=50, unique=True, blank=False)
     email = models.EmailField(max_length=255, unique=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
@@ -40,9 +40,6 @@ class CustomUser(AbstractBaseUser):
     USERNAME_FIELD = 'username'
     EMAIL_FIELD = 'email'
     REQUIRED_FIELDS = ['email', ]
-
-    def __str__(self):
-        return self.username
  
     def __str__(self):
         return self.email
@@ -65,7 +62,8 @@ class CustomUser(AbstractBaseUser):
  
  
 class Profile(models.Model):
-    user = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE) #NameError: name 'User' is not defined
+    user = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE) 
+     #1ユーザー/1プロフィール CASCADE:ユーザーが削除されたらプロフィールも一緒に削除
     name = models.CharField(default='', blank=False, max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -75,7 +73,7 @@ class Profile(models.Model):
  
  
 # OneToOneFieldを同時に作成
-@receiver(post_save, sender=User)
+@receiver(post_save, sender=User) #@:デコレーター(直下の関数実行前の行動を設定),post_save:保存後実行
 def create_onetoone(sender, **kwargs):
     if kwargs['created']:
         Profile.objects.create(user=kwargs['instance'])

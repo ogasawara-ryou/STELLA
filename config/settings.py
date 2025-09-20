@@ -123,3 +123,10 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'manual_dic.CustomUser'
+
+#ログイン認証
+LOGIN_URL = 'login'
+ 
+LOGIN_REDIRECT_URL = 'list' #article_list.html？他の設定したクラス？
+ 
+LOGOUT_REDIRECT_URL = 'top'

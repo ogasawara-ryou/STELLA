@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}詳細{% endblock %}
+{% block content %}
+<h1>詳細</h1>
+<table class="table table-striped table-hover table-bordered">
+    <thead>
+        <tr>
+            <th>題名</th>
+            <th>価格</th>
+        </tr>
+    </thead>
+    <tr>
+        <td>{{ article.name }}</td>
+        <td>{{ article.price }} 円</td>
+    </tr>
+</table>
+<a href="{% url 'list' %}">戻る</a>
+{% endblock %}
