@@ -1,7 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404 #後ろ二つ:お気に入り登録
 from django.views.generic import TemplateView
 from django.views.generic import ListView, DetailView
-from manual_dic.models import Article
+from stella.models import Article
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView, LogoutView
@@ -49,5 +49,13 @@ class LoginView(LoginView):
 
 class LogoutView(LoginRequiredMixin, LogoutView):
     template_name = 'top.html'
+
+class Bookmark(LoginRequiredMixin, request, pk): #お気に入り登録
+    model = Article
+    template_name = "snippets/bookmark_list.html"
+    article = get_object_or_404(Article, pk=pk)
+    request.user.bookmark.add(Article)
+    return redirect('stella:index')
+
 
 

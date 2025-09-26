@@ -16,29 +16,31 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from manual_dic import views
-from manual_dic.views import IndexListView
+from stella import views
+from stella.views import IndexListView
 
 urlpatterns = [
     path('admin/', admin.site.urls), #管理画面
 
     path('', views.TopView.as_view(), name="top"), #トップページ
 
-    path('manual_dic/views', views.ArticleListView.as_view(), name="list") #投稿一覧
+    path('stella/views', views.ArticleListView.as_view(), name="list"), #投稿一覧
 
-    path('manual_dic/new/', views.ArticleCreateView.as_view(), name="new"), #新規作成
+    path('stella/new/', views.ArticleCreateView.as_view(), name="new"), #新規作成
 
     #path('article/',　{% url 'article_list'}, name="list"),  投稿一覧 ここにヘッダーのリンク設定？
 
-    path('manual_dic/edit/<int:pk>', views.ArticleUpdateView.as_view(), name="edit"),
+    path('stella/edit/<int:pk>', views.ArticleUpdateView.as_view(), name="edit"),
 
-    path('manual_dic/delete/<int:pk>', views.ArticleDeleteView.as_view(), name="delete"),
+    path('stella/delete/<int:pk>', views.ArticleDeleteView.as_view(), name="delete"),
 
-    path('manual_dic/detail/views', views.ArticleDetailView.as_view(), name="detail"), #投稿詳細
+    path('stella/detail/views', views.ArticleDetailView.as_view(), name="detail"), #投稿詳細
 
     path('login/', views.LoginView.as_view(), name="login"),
     
     path('logout/', views.LogoutView.as_view(), name="logout"),
+
+    path('bookmark/<int:pk>/', views.followPlace, name='bookmark'), #お気に入り
 
     
 ]

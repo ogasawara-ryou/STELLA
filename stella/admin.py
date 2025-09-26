@@ -1,8 +1,8 @@
 # 管理画面設定
 
-from manual_dic.forms import UserCreationForm
+from stella.forms import UserCreationForm
 from django.contrib import admin
-from manual_dic.models import Article, Category, Tag, CustomUser, Profile  #User→CustomUser
+from stella.models import Article, Category, Tag, CustomUser, Profile  #User→CustomUser
 from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin
  
@@ -22,7 +22,7 @@ class CustomUserAdmin(UserAdmin):
     )
     list_display = ['username', 'user_id', 'email']
     list_filter = ()
-    ordering = ()　#項目の表示並び替え設定
+    ordering = () #項目の表示並び替え設定
     filter_horizontal = ()
  
     add_fieldsets = (
@@ -31,7 +31,7 @@ class CustomUserAdmin(UserAdmin):
  
     add_form = UserCreationForm
  
-    inlines = (ProfileInline,)
+    #inlines = (ProfileInline,)
  
  
 admin.site.register(Article, ArticleAdmin)   #項目新規追記(register)

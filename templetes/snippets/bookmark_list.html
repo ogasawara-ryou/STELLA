@@ -1,9 +1,8 @@
 {% extends "base.html" %}
 
-{% block title %}投稿一覧{% endblock %}
+{% block title %}お気に入り一覧{% endblock %}
 {% block content %}
-<h1>投稿一覧</h1>
-<a href="{% url 'new' %}">新規作成</a>
+<h1>お気に入り一覧</h1>
 
 <!--検索機能-->
 <form action=""method="get">
@@ -27,9 +26,6 @@
             <button class="btn btn-success" onclick="location.href='{% url 'detail' pk=product.pk %}'">詳細</button>
             <button class="btn btn-primary" onclick="location.href='{% url 'edit' pk=product.pk %}'">編集</button>
             <button class="btn btn-danger" onclick="location.href='{% url 'delete' pk=product.pk %}'">削除</button>
-            <form action="{% url 'stella:follow' place.pk %}" method="post">
-    <button type="submit" name="button">お気に入り追加</button>
-            </form>
         </td>
     </tr>
     {% endfor %}
