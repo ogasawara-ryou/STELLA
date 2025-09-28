@@ -40,7 +40,7 @@ urlpatterns = [
     
     path('logout/', views.LogoutView.as_view(), name="logout"),
 
-    path('bookmark/<int:pk>/', views.followPlace, name='bookmark'), #お気に入り
+    #path('bookmark/<int:pk>/', views.followPlace, name='bookmark'), #お気に入り
 
     
 ]

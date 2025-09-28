@@ -3,10 +3,11 @@ from django.db.models.signals import post_save
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin, UserManager
 from stella.models import create_id
-from stella.models import User
-from django.utils.translation import ugettext_lazy as _
+from stella.models import User, Article
+from django.utils.translation import gettext_lazy as _ #多言語対応
 from django.utils import timezone
 from django.contrib.auth.validators import UnicodeUsernameValidator
+
 #from django.core.mail import send_mail
  
  
@@ -50,12 +51,13 @@ class UserManager(BaseUserManager):
         #return self._create_user(username, email, password, **extra_fields)
  
  
-class CustomUser(AbstractBaseUser, PermissionsMixin):
+class CustomUser( PermissionsMixin, AbstractBaseUser):
     user_id = models.CharField(default=create_id, primary_key=True, max_length=22)
     username = models.CharField(max_length=50, unique=True, blank=False)
     email = models.EmailField(max_length=255, unique=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=True)
     objects = UserManager()
     USERNAME_FIELD = 'username'
     EMAIL_FIELD = 'email'

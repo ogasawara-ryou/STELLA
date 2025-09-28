@@ -11,7 +11,7 @@ from django.contrib.auth.forms import AuthenticationForm
 class TopView(TemplateView): #トップページ
     template_name = "snippets/top.html"
 
-class IndexListView(ListView):
+class IndexListView(LoginRequiredMixin,ListView):
     model = Article
     template_name = 'pages/index.html'
     def get_queryset(self):
@@ -50,12 +50,15 @@ class LoginView(LoginView):
 class LogoutView(LoginRequiredMixin, LogoutView):
     template_name = 'top.html'
 
+'''
 class Bookmark(LoginRequiredMixin, request, pk): #お気に入り登録
     model = Article
     template_name = "snippets/bookmark_list.html"
     article = get_object_or_404(Article, pk=pk)
     request.user.bookmark.add(Article)
-    return redirect('stella:index')
+    
+  return redirect()
+'''
 
 
 

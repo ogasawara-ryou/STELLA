@@ -1,14 +1,14 @@
 {% extends "base.html" %}
-{% load bootstrap %}
+{% load bootstrap %}  
 
 {% block title %}ログイン{% endblock %}
-{% block content %}
+{% block main %}
 
 <h1>ログイン</h1>
 
 <form method="post">
     {% csrf_token %}
-    {{ form|bootstrap }}
+    {{ form|bootstrap }} <!--formの装飾 テンプレートから渡された変数名がform 汎用の装飾が使える　classとか勝手にやってくれる-->
     <br>
 
     <input type="submit" class="btn btn-primary" value="ログイン">
