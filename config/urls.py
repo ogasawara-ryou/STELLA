@@ -17,18 +17,19 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from stella import views
-from stella.views import IndexListView
+from stella.views import ArticleListView #不要？
+from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
     path('admin/', admin.site.urls), #管理画面
 
     path('', views.TopView.as_view(), name="top"), #トップページ
 
-    path('stella/views', views.ArticleListView.as_view(), name="list"), #投稿一覧
+    #path('article_list/', views.article_list, name="article_list"), #投稿一覧 URL部は可views.py調整要 トップから遷移→top.htmlをカレンフォルダ
 
     path('stella/new/', views.ArticleCreateView.as_view(), name="new"), #新規作成
 
-    #path('article/',　{% url 'article_list'}, name="list"),  投稿一覧 ここにヘッダーのリンク設定？
+    path('article_list/', views.ArticleListView.as_view(), name="article_list"),  #投稿一覧 ここにヘッダーのリンク設定？
 
     path('stella/edit/<int:pk>', views.ArticleUpdateView.as_view(), name="edit"),
 
@@ -40,7 +41,19 @@ urlpatterns = [
     
     path('logout/', views.LogoutView.as_view(), name="logout"),
 
+    path('signup/', views.SignUpView.as_view(), name="signup"), #アカウント作成
+
+    path('accountupdate/', views.AccountUpdateView.as_view(), name="accountupdate"), #アカウント
+
+    path('account/', views.Account.as_view(), name="account"),
+
+    path('bookmark_list/', views.BookmarkListView.as_view(), name="bookmark_list"), #お気に入り
+
     #path('bookmark/<int:pk>/', views.followPlace, name='bookmark'), #お気に入り
+
+    #path('bookmark/remove/<str:pk>/', views.remove_from_bookmark),
+    #path('bookmark/add/', views.AddBookmarkView.as_view()),
+    #path('bookmark/', views.BookmarkListView.as_view()), 
 
     
 ]
