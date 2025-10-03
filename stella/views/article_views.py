@@ -33,8 +33,9 @@ class ArticleListView(ListView): #LoginRequiredMixin,ListView
 
 class ArticleCreateView(CreateView):  #新規作成 LoginRequiredMixin,CreateView
     model = Article
+    queryset = Article.objects.all() #これ何？
     field = '__all__'
-    template_name = 'snippets/article_form.html'
+    #template_name = 'snippets/article_form.html'
 
 class ArticleUpdateView(UpdateView): #LoginRequiredMixin,UpdateView
     model = Article
@@ -59,6 +60,7 @@ class LogoutView(LogoutView): #LoginRequiredMixin, LogoutView
 
 class BookmarkListView(UpdateView):
     template_name = "snippets/bookmark_list.html"
+    
 '''
 class Bookmark(request, pk): #お気に入り登録LoginRequiredMixin, 
     model = Article

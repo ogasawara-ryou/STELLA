@@ -37,7 +37,7 @@ urlpatterns = [
 
     path('stella/detail/views', views.ArticleDetailView.as_view(), name="detail"), #投稿詳細
 
-    path('login/', views.LoginView.as_view(), name="login"),
+    path('login/', views.LoginView.as_view(), name="login"), #topに対して一つ前のフォルダにhtml。どう表記？
     
     path('logout/', views.LogoutView.as_view(), name="logout"),
 
