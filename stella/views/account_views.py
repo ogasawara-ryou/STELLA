@@ -6,7 +6,9 @@ from stella.forms import UserCreationForm
  
  
 class Account(UpdateView): #アカウント
-    template_name = 'snippets/account.html'
+    template_name = 'pages/account.html'
+    #all_accounts = Account.objects.all()
+
 
 class SignUpView(CreateView):
     form_class = UserCreationForm

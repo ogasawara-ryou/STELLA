@@ -13,43 +13,43 @@ from django.contrib.auth.validators import UnicodeUsernameValidator
  
 class UserManager(BaseUserManager):
  
-    def _create_user(self, username, email, password=None):
+    #def _create_user(self, username, email, password=None): #修正要　model居る？
+    def _create_user(self, username, email, password=None, is_staff=False,is_superuser=False,is_admin=False):
         if not email: #nameも必須入力にしたい else?
             raise ValueError('メールアドレスを入力して下さい')
         user = self.model(
             username=username,
-            email=self.normalize_email(email),            
+            email=self.normalize_email(email), 
+                       
         )
+        user.is_staff=is_staff
+        user.is_superuser=is_superuser
+        user.is_admin=is_admin
         user.set_password(password)
         user.save(using=self._db)
         return user
     
+    #def create_user(self, username, email=None, password=None):
     def create_user(self, username, email=None, password=None):
-        extra_fields.setdefault('is_staff', False)
-        extra_fields.setdefault('is_superuser', False)
-        return self._create_user(username, email, password)
+        return self._create_user(username, email, password, False, False, False)
  
+   
     def create_superuser(self, username, email, password=None):
-        user = self.create_user(
-            username,
-            email,
-            password=password,
-        )
-        user.is_admin = True
-        user.save(using=self._db)
-        return user
+        return self._create_user(username, email, password, True, True, True)
+    '''
 
-    #def create_superuser(self, username, email, password, **extra_fields):
-        #extra_fields.setdefault('is_staff', True)
-        #extra_fields.setdefault('is_superuser', True)
+    def create_superuser(self, username, email, password, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+    
 
-        #if extra_fields.get('is_staff') is not True:
-            #raise ValueError('Superuser must have is_staff=True.')
-        #if extra_fields.get('is_superuser') is not True:
-            #raise ValueError('Superuser must have is_superuser=True.')
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('Superuser must have is_staff=True.')
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('Superuser must have is_superuser=True.')
 
-        #return self._create_user(username, email, password, **extra_fields)
- 
+        return self._create_user(username, email, password, **extra_fields)
+    '''
  
 class CustomUser( PermissionsMixin, AbstractBaseUser):
     user_id = models.CharField(default=create_id, primary_key=True, max_length=22)
@@ -57,7 +57,8 @@ class CustomUser( PermissionsMixin, AbstractBaseUser):
     email = models.EmailField(max_length=255, unique=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
-    is_superuser = models.BooleanField(default=True)
+    is_superuser = models.BooleanField(default=False)
+    is_staff =  models.BooleanField(default=False)
     objects = UserManager()
     USERNAME_FIELD = 'username'
     EMAIL_FIELD = 'email'
@@ -80,12 +81,13 @@ class CustomUser( PermissionsMixin, AbstractBaseUser):
         # Simplest possible answer: Yes, always
         return True
  
+
     @property
     def is_staff(self):
         "Is the user a member of staff?"
         # Simplest possible answer: All admins are staff
         return self.is_admin
- 
+
  
 
  
